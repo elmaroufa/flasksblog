@@ -1,0 +1,16 @@
+<html>
+<head>
+    {% block head %}
+    <title>{% block title %}{% endblock %} - My Application</title>
+    {% endblock %}
+</head>
+<body>
+    {% block navbar %}
+    {% endblock %}
+    {% block content %}
+    <div class="container">
+        {% block page_content %}{% endblock %}
+    </div>
+    {% endblock %}
+</body>
+</html>
