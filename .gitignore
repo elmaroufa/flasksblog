@@ -3,6 +3,9 @@
 .flaskenv
 *.pyc
 *.pyo
+flaskenv/
+migrations/
+.db
 env/
 venv/
 .venv/
