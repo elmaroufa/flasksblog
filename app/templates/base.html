@@ -7,7 +7,7 @@
 <body>
     {% block navbar %}
     {% endblock %}
-    {% block content %}
+    
 
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
@@ -24,7 +24,11 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('index') }}">Home</a></li>
+                {% if current_user.is_anonymous %}
                 <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% else %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -41,6 +45,6 @@
     <div class="container">
         {% block page_content %}{% endblock %}
     </div>
-    {% endblock %}
+    
 </body>
 </html>
