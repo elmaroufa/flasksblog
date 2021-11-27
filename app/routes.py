@@ -1,7 +1,8 @@
 from flask import render_template, redirect, flash, url_for, request
+from datetime import datetime
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LogimForm, RegisterForm
+from app.forms import LogimForm, RegisterForm, EditProfileForm
 from app.models import User, Post
 from flask_login import current_user, login_user, logout_user, login_required
 
@@ -12,9 +13,10 @@ def index():
     return render_template('index.html', user=user)
 
 
-@app.route('/user/<name>')
-def user(name):
-    return render_template('users.html',name=name)
+@app.route('/user/<username>')
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('users.html',user=user)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -61,6 +63,29 @@ def register():
         flash('COngratulation, you are new user')
         return redirect(url_for('login'))
     return render_template('register.html', title='Regiseter', form=form)
+
+
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_see = datetime.utcnow()
+        db.session.commit()
+
+
+@app.route('/edit_profil', methods=['GET', 'POST'])
+@login_required
+def edit_profil():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Change profil success')
+        return redirect(url_for('edit_profil'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.about_me.data  = current_user.about_me
+    return render_template('edit_profil.html', form=form, title='Edit profi')
 
 
 
