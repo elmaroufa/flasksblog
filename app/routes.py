@@ -2,15 +2,23 @@ from flask import render_template, redirect, flash, url_for, request
 from datetime import datetime
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import EmptyForm, LogimForm, RegisterForm, EditProfileForm
+from app.forms import EmptyForm, LogimForm, PostForm, RegisterForm, EditProfileForm, PostForm
 from app.models import User, Post
 from flask_login import current_user, login_user, logout_user, login_required
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('index', methods=['GET', 'POST'])
 @login_required
 def index():
-    user = {'username' : 'salyabbo'}
-    return render_template('index.html', user=user)
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post is live')
+        return redirect(url_for('index'))
+    posts = current_user.followed_posts().all()
+    return render_template('index.html', form=form, posts=posts)
 
 
 @app.route('/user/<username>')
