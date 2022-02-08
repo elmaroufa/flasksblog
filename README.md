@@ -31,12 +31,12 @@
  <tr>
  <td><strong>6</strong></td>
  <td><strong>Flask-Login==0.5.0</strong></td>
- </tr
+ </tr>
   <tr>
  <td><strong>7</strong></td>
  <td><strong>email-validator==1.1.3</strong></td>
- </tr
+ </tr>
 </table>
-  </p>
   <br>
-  ---
+  --------------------------------------------------------------------------------------
+  ##How install and start project :
