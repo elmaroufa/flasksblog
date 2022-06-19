@@ -7,7 +7,7 @@ from app.models import User, Post
 from flask_login import current_user, login_user, logout_user, login_required
 
 @app.route('/', methods=['GET', 'POST'])
-@app.route('index', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
     form = PostForm()
@@ -138,3 +138,8 @@ def unfollow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
+
+@app.route('/explore')
+def explore():
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', title='Explore',posts=posts)
