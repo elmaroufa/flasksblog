@@ -9,6 +9,7 @@ migrations/
 env/
 venv/
 .venv/
+/logs
 env*
 dist/
 build/
