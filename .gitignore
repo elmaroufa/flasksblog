@@ -6,10 +6,12 @@
 flaskenv/
 migrations/
 .db
+logs/
+.logs
 env/
 venv/
 .venv/
-logs/
+
 env*
 dist/
 build/
